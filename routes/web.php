@@ -16,12 +16,14 @@ use App\Http\Controllers\UserController;
 */
 
 // User related URL
+// Route::get("/",[UserController::class,"showCorrectHomepage"])->name("login"); // auth middleware part 2
 Route::get("/",[UserController::class,"showCorrectHomepage"]);
-Route::post("/register", [UserController::class, "register"]);
-Route::post("/login",[UserController::class, "login"]);
-Route::post("/logout",[UserController::class, "logout"]);
+Route::post("/register", [UserController::class, "register"])->middleware("guest");;
+Route::post("/login",[UserController::class, "login"])->middleware("guest");
+Route::post("/logout",[UserController::class, "logout"])->middleware("mustBeLoggedIn");
 
 // Post related URL
-Route::get("/create-post", [PostController::class, "showCreateForm"]);
-Route::post("/create-post", [PostController::class, "storeNewPost"]);
-Route::get("/post/{post}", [PostController::class, "viewSinglePost"]);
+// Route::get("/create-post", [PostController::class, "showCreateForm"])->middleware("auth");  // auth middleware part 1
+Route::get("/create-post", [PostController::class, "showCreateForm"])->middleware("mustBeLoggedIn");
+Route::post("/create-post", [PostController::class, "storeNewPost"])->middleware("mustBeLoggedIn");
+Route::get("/post/{post}", [PostController::class, "viewSinglePost"])->middleware("mustBeLoggedIn");
