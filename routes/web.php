@@ -24,10 +24,14 @@ Route::post("/logout",[UserController::class, "logout"])->middleware("mustBeLogg
 
 // Post related URL
 // Route::get("/create-post", [PostController::class, "showCreateForm"])->middleware("auth");  // auth middleware part 1
-Route::get("/create-post", [PostController::class, "showCreateForm"])->middleware("mustBeLoggedIn");
-Route::post("/create-post", [PostController::class, "storeNewPost"])->middleware("mustBeLoggedIn");
+// Route::get("/create-post", [PostController::class, "showCreateForm"])->middleware("mustBeLoggedIn");
+Route::get("/create-post", [PostController::class, "showCreateForm"]);
+// Route::post("/create-post", [PostController::class, "storeNewPost"])->middleware("mustBeLoggedIn");
+Route::post("/create-post", [PostController::class, "storeNewPost"]);
 // Route::get("/post/{post}", [PostController::class, "viewSinglePost"])->middleware("mustBeLoggedIn");
 Route::get("/post/{post}", [PostController::class, "viewSinglePost"]);
+// delete post
+Route::delete("/post/{post}",[PostController::class, "delete"]);
 
 // Profile related routes
 Route::get("/profile/{user:username}",[UserController::class,"profile"]);
