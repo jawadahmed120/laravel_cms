@@ -14,6 +14,20 @@ use App\Http\Controllers\UserController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+// Route::get("/admin-only", function(){
+//     if(Gate::allows("visitAdminPages")){
+//         return "Only admins should be able see this page";
+//     } // if by controller
+//     return "you are not allowed";
+// }); // with controller Gate
+
+Route::get("/admin-only", function(){
+    // if(Gate::allows("visitAdminPages")){
+    //     return "Only admins should be able see this page";
+    // } // if by controller
+    // return "you are not allowed";
+    return "Only admins should be able see this page";
+})->middleware("can:visitAdminPages");
 
 // User related URL
 // Route::get("/",[UserController::class,"showCorrectHomepage"])->name("login"); // auth middleware part 2
