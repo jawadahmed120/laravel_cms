@@ -32,18 +32,23 @@ Route::get("/admin-only", function(){
 // User related URL
 // Route::get("/",[UserController::class,"showCorrectHomepage"])->name("login"); // auth middleware part 2
 Route::get("/",[UserController::class,"showCorrectHomepage"]);
+Route::get("/register", [UserController::class, "register"])->middleware("guest");;
 Route::post("/register", [UserController::class, "register"])->middleware("guest");;
+Route::get("/login",[UserController::class, "login"])->middleware("guest");
 Route::post("/login",[UserController::class, "login"])->middleware("guest");
+Route::get("/logout",[UserController::class, "logout"])->middleware("mustBeLoggedIn");
 Route::post("/logout",[UserController::class, "logout"])->middleware("mustBeLoggedIn");
+Route::get("/manage-avatar",[UserController::class, "showAvatarForm"])->middleware("mustBeLoggedIn");
+Route::post("/manage-avatar",[UserController::class, "storeAvatar"])->middleware("mustBeLoggedIn");;
 
 // Post related URL
 // Route::get("/create-post", [PostController::class, "showCreateForm"])->middleware("auth");  // auth middleware part 1
-// Route::get("/create-post", [PostController::class, "showCreateForm"])->middleware("mustBeLoggedIn");
-Route::get("/create-post", [PostController::class, "showCreateForm"]);
-// Route::post("/create-post", [PostController::class, "storeNewPost"])->middleware("mustBeLoggedIn");
-Route::post("/create-post", [PostController::class, "storeNewPost"]);
-// Route::get("/post/{post}", [PostController::class, "viewSinglePost"])->middleware("mustBeLoggedIn");
-Route::get("/post/{post}", [PostController::class, "viewSinglePost"]);
+Route::get("/create-post", [PostController::class, "showCreateForm"])->middleware("mustBeLoggedIn");
+// Route::get("/create-post", [PostController::class, "showCreateForm"]);
+Route::post("/create-post", [PostController::class, "storeNewPost"])->middleware("mustBeLoggedIn");
+// Route::post("/create-post", [PostController::class, "storeNewPost"]);
+Route::get("/post/{post}", [PostController::class, "viewSinglePost"])->middleware("mustBeLoggedIn");
+// Route::get("/post/{post}", [PostController::class, "viewSinglePost"]);
 // delete post
 Route::delete("/post/{post}",[PostController::class, "delete"])->middleware("can:delete,post");
 Route::get("/post/{post}/edit",[PostController::class, "showEditForm"])->middleware("can:update,post");
@@ -51,4 +56,4 @@ Route::put("/post/{post}",[PostController::class, "actuallyUpdate"])->middleware
 // Route::update("/post/{post}",[PostController::class, "actuallyUpdate"])->middleware("can:update,post");
 
 // Profile related routes
-Route::get("/profile/{user:username}",[UserController::class,"profile"]);
+Route::get("/profile/{user:username}",[UserController::class,"profile"])->middleware("mustBeLoggedIn");
